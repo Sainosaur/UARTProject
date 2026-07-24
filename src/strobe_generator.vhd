@@ -5,10 +5,11 @@ USE ieee.numeric_std.all;
 
 ENTITY strobe_generator IS
 PORT (
-    CLK: IN std_logic; -- Built assuming clock rate of 16MHz
+    clk: IN std_logic; -- Built assuming clock rate of 16MHz
     baud_rate: IN unsigned(2 DOWNTO 0);
     enable_tx: OUT std_logic;
-    enable_rx: OUT std_logic
+    enable_rx: OUT std_logic;
+    error: OUT std_logic
 );
 END strobe_generator;
 
@@ -22,20 +23,25 @@ BEGIN
     PROCESS (clk)
     BEGIN
         IF rising_edge(clk) THEN
-            IF rx_counter < baud_rate_counters(baud_rate) THEN
-                enable_rx <= '0';
-                rx_counter <= rx_counter + 1;
-            ELSE
-                enable_rx <= '1';
-                rx_counter <= '0';
-                tx_counter <= tx_counter + 1;
+            IF baud_rate < 5 THEN
+                error <= '0';
+                IF rx_counter < baud_rate_counters(TO_INTEGER(baud_rate)) THEN
+                    enable_rx <= '0';
+                    rx_counter <= rx_counter + 1;
+                ELSE
+                    enable_rx <= '1';
+                    rx_counter <= (OTHERS => '0');
+                    tx_counter <= tx_counter + 1;
+                END IF;
+                IF tx_counter = X"F" THEN
+                    enable_tx <= '1';
+                    tx_counter <= (OTHERS => '0');
+                ELSE
+                    enable_tx <= '0';
+                END IF;
             END IF;
-            IF tx_counter = X"F" THEN
-                enable_tx <= '1';
-                tx_counter <= (OTHERS => '0');
-            ELSE
-                enable_tx <= '0';
-            END IF;
+        ELSE
+            error <= '1';
         END IF;
     END PROCESS;
 END behavioral;
