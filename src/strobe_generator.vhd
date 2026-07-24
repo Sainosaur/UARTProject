@@ -18,7 +18,7 @@ ARCHITECTURE behavioral OF strobe_generator IS
     TYPE baud_rate_array IS ARRAY (0 TO 7) OF unsigned (7 DOWNTO 0) ;
     SIGNAL rx_counter : unsigned(7 DOWNTO 0) := (OTHERS => '0');
     SIGNAL tx_counter: unsigned(3 DOWNTO 0) := (OTHERS => '0');
-    SIGNAL baud_rate_counters: baud_rate_array := ("01101000", "00110100", "00011010", "00001100", "00000110", "00000000", "00000000", "00000000");
+    SIGNAL baud_rate_counters: baud_rate_array := ("01101000", "00110100", "00011010", "00010000", "00001000", "00000000", "00000000", "00000000");
 BEGIN
     PROCESS (clk)
     BEGIN
@@ -33,15 +33,15 @@ BEGIN
                     rx_counter <= (OTHERS => '0');
                     tx_counter <= tx_counter + 1;
                 END IF;
-                IF tx_counter = X"F" THEN
+                IF tx_counter = X"F" THEN -- Synchronises two signals, ensures
                     enable_tx <= '1';
                     tx_counter <= (OTHERS => '0');
                 ELSE
                     enable_tx <= '0';
                 END IF;
+            ELSE
+                    error <= '1';
             END IF;
-        ELSE
-            error <= '1';
         END IF;
     END PROCESS;
 END behavioral;

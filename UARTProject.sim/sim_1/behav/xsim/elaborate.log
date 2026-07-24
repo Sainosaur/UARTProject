@@ -1,7 +1,7 @@
 Vivado Simulator v2026.1
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
 Copyright 2022-2026 Advanced Micro Devices, Inc. All Rights Reserved.
-Running: C:/AMDDesignTools/2026.1/Vivado/bin/unwrapped/win64.o/xelab.exe --incr --debug typical --relax --mt 2 -L xil_defaultlib -L secureip --snapshot test_rx_register_behav xil_defaultlib.test_rx_register -log elaborate.log 
+Running: C:/AMDDesignTools/2026.1/Vivado/bin/unwrapped/win64.o/xelab.exe --incr --debug typical --relax --mt 2 -L xil_defaultlib -L secureip --snapshot test_strobe_gen_behav xil_defaultlib.test_strobe_gen -log elaborate.log 
 INFO: [XSIM 43-3493] Using 2 slave threads.
 Starting static elaboration
 Completed static elaboration
@@ -12,6 +12,6 @@ Compiling package std.standard
 Compiling package std.textio
 Compiling package ieee.std_logic_1164
 Compiling package ieee.numeric_std
-Compiling architecture behavioral of entity xil_defaultlib.shift_register_rx [shift_register_rx_default]
-Compiling architecture behavioral of entity xil_defaultlib.test_rx_register
-Built simulation snapshot test_rx_register_behav
+Compiling architecture behavioral of entity xil_defaultlib.strobe_generator [strobe_generator_default]
+Compiling architecture behavioral of entity xil_defaultlib.test_strobe_gen
+Built simulation snapshot test_strobe_gen_behav

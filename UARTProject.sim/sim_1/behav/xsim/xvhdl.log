@@ -1,2 +1,4 @@
-INFO: [VRFC 10-163] Analyzing VHDL file "C:/Users/Sai Adiraju/Documents/UARTProject/test/shift_register_rx.vhd" into library xil_defaultlib
-INFO: [VRFC 10-3107] analyzing entity 'test_rx_register'
+INFO: [VRFC 10-163] Analyzing VHDL file "C:/Users/Sai Adiraju/Documents/UARTProject/src/strobe_generator.vhd" into library xil_defaultlib
+INFO: [VRFC 10-3107] analyzing entity 'strobe_generator'
+INFO: [VRFC 10-163] Analyzing VHDL file "C:/Users/Sai Adiraju/Documents/UARTProject/test/strobe_generator.vhd" into library xil_defaultlib
+INFO: [VRFC 10-3107] analyzing entity 'test_strobe_gen'

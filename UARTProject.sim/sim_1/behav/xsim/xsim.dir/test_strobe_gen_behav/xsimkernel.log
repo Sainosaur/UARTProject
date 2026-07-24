@@ -1,0 +1,4 @@
+Running: xsim.dir/test_strobe_gen_behav/xsimk.exe -simmode gui -wdb test_strobe_gen_behav.wdb -simrunnum 0 -socket 61492
+Design successfully loaded
+Design Loading Memory Usage: 19760 KB (Peak: 19760 KB)
+Design Loading CPU Usage: 171 ms
