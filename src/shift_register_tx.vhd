@@ -5,13 +5,13 @@ USE ieee.numeric_std.all;
 
 ENTITY shift_register_tx IS
     PORT (
-        clk: IN std_logic;
+        clk: IN std_logic; -- Clock input
         parallel_mode: IN std_logic; -- if '0' the system shifts through data if '1' the system accepts parallel input and doesn't cycle through data
-        strobe_in: IN std_logic;
-        shift_out: OUT std_logic;
+        strobe_in: IN std_logic; -- Clock enable / strobe input, register will only shift if high
+        shift_out: OUT std_logic; -- Output of register
         parallel_data: IN UNSIGNED(7 DOWNTO 0); -- Reconfigure to OUT based on system requirement
-        parity: OUT std_logic;
-        reset: IN std_logic
+        parity: OUT std_logic; -- Live parity bit output of whatever the register currently holds
+        reset: IN std_logic -- Bit used to reset entire register, if '1' system wipes current state.
     );
 END shift_register_tx;
 
