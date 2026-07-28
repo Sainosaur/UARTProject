@@ -34,18 +34,18 @@ BEGIN
     PROCESS (clk)
     BEGIN
         IF rising_edge(clk) THEN
-            IF reset THEN
+            IF reset = '1' THEN
                 fsm_state <= INITIAL;
                 initial_counter <= (OTHERS => '0');
                 error <= '0';
                 reset_state <= '1';
                 parallel_mode <= '0';
-                tx <= '1'
-            ELSIF strobe THEN
+                tx <= '1';
+            ELSIF strobe = '1' THEN
                 CASE fsm_state IS
                     WHEN INITIAL =>
-                        error <= '0';
                         IF initial_counter = X"B" THEN
+                            error <= '0';
                             fsm_state <= IDLE;
                             parallel_mode <= '1';
                             reset_state <= '0';
