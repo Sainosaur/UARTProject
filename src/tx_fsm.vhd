@@ -33,7 +33,7 @@ BEGIN
     shift_register : ENTITY work.shift_register_tx(behavioral) PORT MAP (clk => clk, parallel_mode => parallel_mode, strobe_in => strobe, shift_out => tx_state, parallel_data => parallel_data, parity => parity_state, reset => reset_state);
     tx <= tx_state WHEN fsm_state = SHIFT ELSE
             parity_value WHEN fsm_state = PARITY ELSE
-            '1';
+            '0' WHEN fsm_state = START ELSE '1';
     PROCESS (clk)
     BEGIN
         IF rising_edge(clk) THEN
@@ -60,7 +60,7 @@ BEGIN
                     WHEN IDLE =>
                         IF start_in = '1' THEN
                             fsm_state <= START;
-                            parallel_mode <= '0';
+                            parallel_mode <= '1';
                             reset_state <= '0';
                         END IF;
                     WHEN START =>
