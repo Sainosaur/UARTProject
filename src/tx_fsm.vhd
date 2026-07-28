@@ -31,6 +31,9 @@ SIGNAL shift_counter : unsigned(2 DOWNTO 0) := (OTHERS => '0');
 
 BEGIN
     shift_register : ENTITY work.shift_register_tx(behavioral) PORT MAP (clk => clk, parallel_mode => parallel_mode, strobe_in => strobe, shift_out => tx_state, parallel_data => parallel_data, parity => parity_state, reset => reset_state);
+    tx <= tx_state WHEN fsm_state = SHIFT ELSE
+            parity_value WHEN fsm_state = PARITY ELSE
+            '1';
     PROCESS (clk)
     BEGIN
         IF rising_edge(clk) THEN
@@ -40,7 +43,6 @@ BEGIN
                 error <= '0';
                 reset_state <= '1';
                 parallel_mode <= '0';
-                tx <= '1';
             ELSIF strobe = '1' THEN
                 CASE fsm_state IS
                     WHEN INITIAL =>
@@ -49,7 +51,6 @@ BEGIN
                             fsm_state <= IDLE;
                             parallel_mode <= '1';
                             reset_state <= '0';
-                            tx <= '1';
                         ELSIF rx = '1' THEN
                             initial_counter <= initial_counter + 1;
                         ELSE
@@ -57,18 +58,16 @@ BEGIN
                             error <= '1';
                         END IF;
                     WHEN IDLE =>
-                        IF start_in THEN
+                        IF start_in = '1' THEN
                             fsm_state <= START;
                             parallel_mode <= '0';
                             reset_state <= '0';
-                            tx <= '1';
                         END IF;
                     WHEN START =>
                         fsm_state <= SHIFT;
                         parity_value <= parity_state;
                         parallel_mode <= '0';
                         reset_state <= '0';
-                        tx <= tx_state;
                     WHEN SHIFT =>
                         IF shift_counter = X"7" THEN
                             fsm_state <= PARITY;
@@ -79,14 +78,12 @@ BEGIN
                             shift_counter <= shift_counter + 1;
                         END IF;
                     WHEN PARITY =>
-                        tx <= parity_value;
                         parallel_mode <= '0';
                         reset_state <= '0';
                         fsm_state <= STOP;
                     WHEN STOP =>
-                        parallel_mode <= '0';
+                        parallel_mode <= '1';
                         reset_state <= '0';
-                        tx <= '1';
                         fsm_state <= IDLE;
                     END CASE;
             END IF;
