@@ -98,7 +98,7 @@ BEGIN
         start_in <= '0';
         WAIT FOR 5 us;
 
-        -- Test Case 10 (Expected parity bit = '1')
+        -- Test Case 10 (Expected parity bit = '0')
         parallel_data <= "11100010";
         WAIT FOR 2 ns;
         start_in <= '1';

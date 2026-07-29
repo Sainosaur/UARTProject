@@ -1,7 +1,0 @@
-# compile vhdl design source files
-vhdl xil_defaultlib  \
-"../../../../src/strobe_generator.vhd" \
-"../../../../test/strobe_generator.vhd" \
-
-# Do not sort compile order
-nosort
