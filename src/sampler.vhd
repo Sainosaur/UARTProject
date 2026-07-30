@@ -16,6 +16,7 @@ END sampler;
 ARCHITECTURE behavioral OF sampler IS
     SIGNAL pulse_count : UNSIGNED (3 DOWNTO 0) := (OTHERS => '0');
     SIGNAL zero_count : UNSIGNED (2 DOWNTO 0) := (OTHERS => '0');
+    SIGNAL one_count : UNSIGNED (2 DOWNTO 0) := (OTHERS => '0');
 BEGIN
     PROCESS(clk)
     BEGIN
@@ -28,16 +29,19 @@ BEGIN
                 IF pulse_count >= X"6" AND pulse_count < X"C" THEN
                     IF rx_in = '0' THEN
                         zero_count <= zero_count + 1;
+                    ELSIF rx_in = '1' THEN
+                        one_count <= one_count + 1;
                     END IF;
                 ELSIF pulse_count = X"F" THEN
-                    pulse_count <= (OTHERS => '0');
-                    IF zero_count < X"3" THEN
-                        rx_out <= '1';
-                    ELSIF zero_count = X"3" THEN
-                        rx_out <= 'X';
-                    ELSE
+                    zero_count <= (OTHERS => '0');
+                    one_count <= (OTHERS => '0');
+                   IF zero_count > one_count THEN
                         rx_out <= '0';
-                    END IF;
+                    ELSIF one_count > zero_count THEN
+                        rx_out <= '1';
+                    ELSE
+                        rx_out <= 'X';
+                   END IF;
                 END IF;
             END IF;
         END IF;
