@@ -20,7 +20,7 @@ ARCHITECTURE behavioral of test_tx_fsm IS
     SIGNAL rx_strobe : std_logic;
 BEGIN
     fsm : ENTITY work.tx_fsm(behavioral) PORT MAP(clk => clk, start_in => start_in, parallel_data => parallel_data, reset => reset, strobe => tx_strobe, rx => rx, tx => tx, error => fsm_error);
-    strobe_gen : ENTITY work.strobe_generator(behavioral) PORT MAP (clk => clk, baud_rate => baud_rate, enable_tx => tx_strobe, enable_rx => rx_strobe, error => strobe_error);
+    strobe_gen : ENTITY work.strobe_generator_tx(behavioral) PORT MAP (clk => clk, baud_rate => baud_rate, enable_tx => tx_strobe, error => strobe_error);
     clk <= NOT clk after 1 ns;
     PROCESS
     BEGIN
