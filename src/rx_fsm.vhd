@@ -37,7 +37,7 @@ shift_register : ENTITY work.shift_register_rx(behavioral) PORT MAP (clk => clk,
 
 PROCESS (clk)
 BEGIN
-    IF rising_edge(CLK) THEN
+    IF rising_edge(clk) THEN
         IF fsm_state = INITIAL and strobe_fsm = '1' THEN
             IF initial_counter < X"A" THEN
                 initial_counter <= initial_counter + 1;
