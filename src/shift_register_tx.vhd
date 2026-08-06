@@ -20,7 +20,7 @@ ARCHITECTURE behavioral OF shift_register_tx IS
 SIGNAL parallel_data_register : UNSIGNED(7 DOWNTO 0);
 BEGIN
 parity <= parallel_data_register(7) XOR parallel_data_register(6) XOR parallel_data_register(5) XOR parallel_data_register(4) XOR parallel_data_register(3) XOR parallel_data_register(2) XOR parallel_data_register(1) XOR parallel_data_register(0); -- Calculates parity bit to last register state for FSM to capture
-shift_out <= parallel_data_register(7);
+shift_out <= parallel_data_register(0);
 PROCESS(clk)
 BEGIN
     IF rising_edge(clk) THEN
@@ -32,7 +32,7 @@ BEGIN
                     parallel_data_register <= parallel_data; -- Accepts parallel data into internal system register
                 WHEN OTHERS =>
                     IF strobe_in = '1' THEN
-                        parallel_data_register <= parallel_data_register(6 DOWNTO 0) & '0';
+                        parallel_data_register <= '0' & parallel_data_register(7 DOWNTO 1);
                     END IF;
             END CASE;
         END IF;

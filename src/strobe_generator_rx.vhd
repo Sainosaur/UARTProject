@@ -19,7 +19,7 @@ END strobe_generator_rx;
 ARCHITECTURE behavioral OF strobe_generator_rx IS
 TYPE baud_rate_array IS ARRAY (0 TO 7) OF unsigned (7 DOWNTO 0) ;
 SIGNAL rx_counter : unsigned(7 DOWNTO 0) := (OTHERS => '0');
-SIGNAL fsm_counter : unsigned(3 DOWNTO 0) := (OTHERS => '0');
+SIGNAL fsm_counter : unsigned(4 DOWNTO 0) := (OTHERS => '0');
 SIGNAL baud_rate_counters: baud_rate_array := ("01101000", "00110100", "00011010", "00010000", "00001000", "00000000", "00000000", "00000000");
 BEGIN
     PROCESS (clk)
@@ -38,7 +38,7 @@ BEGIN
                     rx_counter <= (OTHERS => '0');
                     fsm_counter <= fsm_counter + 1;
                 END IF;
-                IF fsm_counter = X"F" THEN
+                IF fsm_counter = X"10" THEN
                     strobe_fsm <= '1';
                     fsm_counter <= (OTHERS => '0');
                 ELSE

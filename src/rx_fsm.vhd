@@ -49,13 +49,14 @@ BEGIN
                 reset_state <= '1';
             END IF;
         ELSIF fsm_state = IDLE THEN
+            resync_state <= '0'; -- Immediately shuts off resync
             IF rx_line = '0' AND start_trigger = '0' THEN
                 start_trigger <= '1';
                 resync_state <= '1'; -- Resynchronises system when falling edge of rx line first occurs
                 parallel_mode <= '0';
                 reset_state <= '0';
             ELSIF start_trigger = '1' AND strobe_fsm = '1' THEN
-                IF rx_state = '0' THEN -- Sampler reports 0, the fallinSg edge cannot be noise.
+                IF rx_state = '0' THEN -- Sampler reports 0, the falling edge cannot be noise.
                     fsm_state <= START; -- Advances system rapidly (system clock rate) to START state.
                     resync_state <= '0'; -- Turns off resync to allow system to function effectively.
                     parallel_mode <= '0';
@@ -72,6 +73,7 @@ BEGIN
             IF shift_counter = X"7" THEN
                 shift_counter <= (OTHERS => '0');
                 fsm_state <= PARITY;
+                parallel_mode <= '1'; -- Ensures register stops shifting further bits
                 parity_calculated <= parity_state;
             ELSE
                 shift_counter <= shift_counter + 1;
