@@ -32,7 +32,7 @@ BEGIN
                     parallel_data <= parallel_data_register; -- Provides parallel data out to main system
                 WHEN OTHERS =>
                     IF strobe_in = '1' THEN
-                        parallel_data_register <= shift_in & parallel_data_register(6 DOWNTO 0);
+                        parallel_data_register <= shift_in & parallel_data_register(7 DOWNTO 1);
                     END IF;
             END CASE;
         END IF;
